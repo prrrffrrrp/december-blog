@@ -1,4 +1,4 @@
-# Byte-compiled / optimized / DLL files
+# Byte-compiled / optimized / DLL files 
 __pycache__/
 *.py[cod]
 
@@ -56,3 +56,6 @@ docs/_build/
 
 # Vim temps and backups
 *.swp
+
+# My own notes
+.notes.txt
