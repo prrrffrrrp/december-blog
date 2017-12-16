@@ -1,6 +1,6 @@
 import os
-from app import app, db
-from models import Post
+from app.app import app, db
+from app.models import Post
 from flask_migrate import Migrate
 
 app.config.from_object(os.environ['APP_SETTINGS'])
