@@ -6,9 +6,11 @@ from ..models import Post
 
 @home.route('/')
 def index():
-    return render_template('index.html')
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    return render_template('index.html', posts=posts)
 
 
-@home.route('/<name>')
-def hello_name(name):
-    return "Hello {}!".format(name)
+@home.route('/post/<int:id>')
+def post(id):
+    post = Post.query.get_or_404(id)
+    return render_template('post.html', post=post)

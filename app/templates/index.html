@@ -1,5 +1,23 @@
 {% extends "base.html" %}
 
-{% block content %}
-<h1>Hello World</h1>
+{% block title %}Home{% endblock %}
+
+{% block page_content %}
+
+<ul class="posts">
+  {% for post in posts %}
+
+    <a href="{{ url_for('home.post', id=post.id) }}">
+      <li class="post">
+        <div class="post-title page-header">
+          {{ post.title }}
+        <span class="post-date">{{ post.timestamp }}</span>
+      </div>
+      <div class="post-subtitle"><p>{{ post.subtitle }}</p>
+      </div>
+    </li>
+  </a>
+  {% endfor %>
+</ul>
+
 {% endblock %}
