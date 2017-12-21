@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %} {{post.title}} {% endblock %}
+
+{% block page_content %}
+<div class='page_header'>
+  <h3>{{ post.title }}</h3>
+  <span>{{ post.timestamp }}</span>
+</div>
+
+<div class='post-subtitle'>
+  <p>{{ post.subtitle }}</p>
+</div>
+
+<div class='post-tags'>
+  <p>{{ post.tags }}</p>
+</div>
+
+<div class='post-body'>
+  <p>{{ post.body }}</p>
+</div>
+{% endblock %}
+

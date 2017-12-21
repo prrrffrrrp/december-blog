@@ -10,7 +10,7 @@ db = SQLAlchemy()
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config_name)
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
     Bootstrap(app)
     db.init_app(app)
@@ -21,7 +21,7 @@ def create_app(config_name):
     from .home import home as home_blueprint
     app.register_blueprint(home_blueprint)
 
-#    from .auth import auth as auth_blueprint
-#    app.register_blueprint(auth_blueprint)
+    from .admin import admin as admin_blueprint
+    app.register_blueprint(admin_blueprint)
 
     return app
