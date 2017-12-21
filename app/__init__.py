@@ -1,10 +1,11 @@
-import os
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 
 db = SQLAlchemy()
+login_manager = LoginManager()
 
 
 def create_app(config_name):
@@ -15,6 +16,10 @@ def create_app(config_name):
     Bootstrap(app)
     db.init_app(app)
     migrate = Migrate(app, db)
+
+    login_manager.init_app(app)
+    login_manager.login_message = "You must be logged in to access this page."
+    login_manager.login_view = "auth.login"
 
     from app import models
 

@@ -17,11 +17,13 @@ class ProductionConfig(Config):
 
 class StagingConfig(Config):
     DEVELOPMENT = True
+    SQLALCHEMY_ECHO = True
     DEBUG = True
 
 
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
+    SQLALCHEMY_ECHO = True
     DEBUG = True
 
 
