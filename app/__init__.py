@@ -15,11 +15,12 @@ def create_app(config_name):
 
     Bootstrap(app)
     db.init_app(app)
-    migrate = Migrate(app, db)
 
     login_manager.init_app(app)
     login_manager.login_message = "You must be logged in to access this page."
     login_manager.login_view = "auth.login"
+
+    migrate = Migrate(app, db)
 
     from app import models
 

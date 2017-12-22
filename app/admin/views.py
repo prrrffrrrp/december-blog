@@ -6,6 +6,11 @@ from ..models import Post
 from .forms import PostForm
 
 
+@admin.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
+
 @admin.route('/new-post', methods=['GET', 'POST'])
 def new_post():
     form = PostForm()
