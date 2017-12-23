@@ -32,7 +32,11 @@ def login():
             login_user(user)
 
             flash('Hello {}, your are logged in'.format(form.username.data))
-            return redirect(url_for('home.index'))
+
+            if user.is_admin:
+                return redirect(url_for('admin.dashboard'))
+            else:
+                return redirect(url_for('home.index'))
 
         else:
             flash('Invalid username or password')

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+  {% if add_post %}
+  
+    New Post
+    
+  {% else %}
+
+    Edit Post
+
+  {% endif %}
+  
+{% endblock %}
+
+
+{% block page_content %}
+<div class='page-header'>
+  {% if add_post %}
+
+    <h3>Add a new post:</h3>
+
+  {% else %}
+
+    <h3>Edit post:</h3>
+
+  {% endif %}
+
+  <br>
+</div>
+{{ wtf.quick_form(form) }}
+{% endblock %}

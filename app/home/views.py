@@ -10,7 +10,7 @@ def index():
     return render_template('index.html', posts=posts)
 
 
-@home.route('/post/<int:id>')
+@home.route('/posts/<int:id>')
 def post(id):
     post = Post.query.get_or_404(id)
     return render_template('post.html', post=post)

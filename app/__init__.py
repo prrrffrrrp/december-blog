@@ -18,7 +18,7 @@ def create_app(config_name):
 
     login_manager.init_app(app)
     login_manager.login_message = "You must be logged in to access this page."
-    login_manager.login_view = "auth.login"
+    login_manager.login_view = "home.index"
 
     migrate = Migrate(app, db)
 
