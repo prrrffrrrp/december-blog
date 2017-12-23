@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -32,5 +32,17 @@ def create_app(config_name):
 
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
+
+    @app.errorhandler(403)
+    def forbidden(error):
+        return render_template('errors/403.html'), 403
+
+    @app.errorhandler(404)
+    def page_not_found(error):
+        return render_template('errors/404.html'), 404
+
+    @app.errorhandler(500)
+    def internal_server_error(error):
+        return render_template('errors/500.html'), 500
 
     return app

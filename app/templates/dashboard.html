@@ -4,17 +4,19 @@
 
 {% block page_content %}
 <div class="content-section">
-  <div class="outer">
-    <div class="middle">
-      <div class="inner">
         <br>
         
           <h1 style="text-align:center;">Dashboard</h1>
+          <div style="text-align: center">
+          <a href="{{ url_for('admin.new_post') }}" class="btn btn-default">
+            <i class="fa fa-plus"></i>
+            New Post
+          </a>
+          </div>
 
           {% if posts %}
 
             <hr class="intro-divider">
-            <div class="center">
               <table class="table table-striped table-bordered">
                 <thead>
                   <tr>
@@ -31,7 +33,10 @@
                   {% for post in posts %}
                     
                     <tr>
-                      <td>{{ post.title }}</td>
+                      <td><a href="{{ url_for('home.post', id=post.id) }}">
+                          {{ post.title }}
+                        </a>
+                      </td>
                       <td>{{ post.subtitle }}</td>
                       <td>{{ post.tags }}</td>
                       <td>
@@ -49,8 +54,6 @@
                   {% endfor %}
                 </tbody>
               </table>
-            </div>
-            <div style="text-align: center">
                 
               {% else %}
 
@@ -59,13 +62,6 @@
                   <hr class="intro-divider">
 
           {% endif %}
-          <a href="{{ url_for('admin.new_post') }}" class="btn btn-default btn-lg">
-            <i class="fa fa-plus"></i>
-            New Post
-          </a>
         </div>
-      </div>
-    </div>
-  </div>
 </div>
 {% endblock %}
