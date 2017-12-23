@@ -23,6 +23,7 @@ def dashboard():
 
 
 @admin.route('/admin/posts/new-post', methods=['GET', 'POST'])
+@login_required
 def new_post():
     check_admin()
 
@@ -48,6 +49,7 @@ def new_post():
 
 
 @admin.route('/admin/posts/<int:id>/edit', methods=['GET', 'POST'])
+@login_required
 def edit_post(id):
     check_admin()
 
@@ -73,6 +75,7 @@ def edit_post(id):
 
 
 @admin.route('/admin/posts/<int:id>/delete', methods=['GET', 'POST'])
+@login_required
 def delete_post(id):
     check_admin()
 
@@ -84,5 +87,3 @@ def delete_post(id):
     return redirect(url_for('admin.dashboard'))
 
     return render_template(title='Delete Post')
-
-
