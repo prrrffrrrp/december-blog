@@ -8,16 +8,21 @@
   <span>{{ post.timestamp }}</span>
 </div>
 
-<div class='post-subtitle'>
-  <p>{{ post.subtitle }}</p>
-</div>
-
 <div class='post-tags'>
-  <p>{{ post.tags }}</p>
+  <p>tags: {{ post.tags }}</p>
 </div>
 
 <div class='post-body'>
-  <p>{{ post.body }}</p>
+  {% if post.body_html %}
+  
+    <div>{{ post.body_html | safe }}</div>
+
+  {% else %}
+
+    <p>{{ post.body }}</p>
+
+  {% endif %}
+
 </div>
 {% endblock %}
 

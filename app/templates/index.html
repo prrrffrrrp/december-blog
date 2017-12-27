@@ -13,7 +13,17 @@
           {{ post.title }}
         <span class="post-date">{{ post.timestamp }}</span>
       </div>
-      <div class="post-subtitle"><p>{{ post.body[:300] }}...</p>
+      <div class="post-beginning">
+        {% if post.body_html %}
+        
+          <p>{{ post.body_html[:300] | safe }}...</p>
+
+        {% else %}
+
+        <p>{{ post.body[:300] }}...</p>
+
+        {% endif %}
+
       </div>
     </li>
   </a>

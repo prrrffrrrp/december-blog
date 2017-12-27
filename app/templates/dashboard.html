@@ -30,7 +30,16 @@
                         <div><a href="{{ url_for('home.post', id=post.id) }}">{{ post.title }}</a></div>
                       </div>
                       <div class="col-sm-4">
-                        <div>{{ post.body[:50] }}</div>
+                          {% if post.body_html %}
+  
+                            <p>{{ post.body_html[:50] | safe }}...</p>
+
+                          {% else %}
+
+                            <p>{{ post.body[:50] }}...</p>
+
+                          {% endif %}
+
                       </div>
                       <div class="col-sm-2">
                         <div>{{ post.tags }}</div>

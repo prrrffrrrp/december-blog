@@ -13,3 +13,8 @@ a:hover {
   text-decoration: none;
   color: #333;
 }
+
+textarea.flask-pagedown-input {
+  height: 30em;
+  width: 100%;
+}
