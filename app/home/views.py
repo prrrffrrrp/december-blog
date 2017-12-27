@@ -6,7 +6,7 @@ from ..models import Post
 
 @home.route('/')
 def index():
-    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    posts = Post.query.order_by(Post.timestamp.desc()).filter_by(publish=True).all()
     return render_template('index.html', posts=posts)
 
 

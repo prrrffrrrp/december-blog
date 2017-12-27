@@ -14,46 +14,54 @@
           </a>
           </div>
 
+          <div class="container">
+
           {% if posts %}
 
             <hr class="intro-divider">
-              <table class="table table-striped table-bordered">
-                <thead>
-                  <tr>
-                    <th width="15%">Title</th>
-                    <th width="40%">Subtitle</th>
-                    <th width="15%">Tags</th>
-                    <th width="15%">Edit</th>
-                    <th width="15%">Delete</th>
-                  </tr>
-                </thead>
 
-                <tbody>
+
 
                   {% for post in posts %}
-                    
-                    <tr>
-                      <td><a href="{{ url_for('home.post', id=post.id) }}">
-                          {{ post.title }}
+
+              <div class="row">
+                      
+                      <div class="col-sm-2">
+                        <div><a href="{{ url_for('home.post', id=post.id) }}">{{ post.title }}</a></div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div>{{ post.body[:50] }}</div>
+                      </div>
+                      <div class="col-sm-2">
+                        <div>{{ post.tags }}</div>
+                      </div>
+                      <div class="col-sm-4">
+                        <a href="{{ url_for('admin.edit_post', id=post.id) }}"
+                          class="btn btn-info btn-xs" role="button">Edit
                         </a>
-                      </td>
-                      <td>{{ post.subtitle }}</td>
-                      <td>{{ post.tags }}</td>
-                      <td>
-                        <a href="{{ url_for('admin.edit_post', id=post.id) }}">
-                          <i class="fa fa-pencil"></i> Edit
+
+                        {% if post.publish %}
+
+                          <a href="{{ url_for('admin.publish_post', id=post.id) }}"
+                            class="btn btn-success btn-xs" role="button">Unpublish
+                          </a>
+
+                        {% else %}
+
+                          <a href="{{ url_for('admin.publish_post', id=post.id) }}"
+                            class="btn btn-warning btn-xs" role="button">Publish
+                          </a>
+
+                        {% endif %}
+
+                        <a href="{{ url_for('admin.delete_post', id=post.id) }}"
+                          class="btn btn-info btn-xs" role="button">Delete
                         </a>
-                      </td>
-                      <td>
-                        <a href="{{ url_for('admin.delete_post', id=post.id) }}">
-                          <i class="fa fa-trash"></i> Delete
-                        </a>
-                      </td>
-                    </tr>
-                    
+                      </div>
+              </div>
+              <hr>
+
                   {% endfor %}
-                </tbody>
-              </table>
                 
               {% else %}
 
@@ -62,6 +70,9 @@
                   <hr class="intro-divider">
 
           {% endif %}
-        </div>
+
+                </div>
+      </div>
 </div>
+
 {% endblock %}

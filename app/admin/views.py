@@ -12,12 +12,12 @@ def check_admin():
         abort(403)
 
 
-@admin.route('/admin/dashboard')
+@admin.route('/admin/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
     check_admin()
 
-    posts = Post.query.all()
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
 
     return render_template('dashboard.html', posts=posts)
 
@@ -72,6 +72,28 @@ def edit_post(id):
 
     return render_template('add-edit-post.html', action="Edit",
                            add_post=add_post, form=form)
+
+
+@admin.route('/admin/posts/<int:id>/publish', methods=['GET', 'POST'])
+@login_required
+def publish_post(id):
+    check_admin()
+
+    post = Post.query.get_or_404(id)
+    if not post.publish:
+        post.publish = True
+
+        flash("You have published the post")
+    else:
+        post.publish = False
+
+        flash("The post isn't public no more")
+
+    db.session.add(post)
+    db.session.commit()
+    return redirect(url_for('admin.dashboard'))
+
+    return render_template()
 
 
 @admin.route('/admin/posts/<int:id>/delete', methods=['GET', 'POST'])
