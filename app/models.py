@@ -1,6 +1,9 @@
 from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from markdown import markdown
+import bleach
+
 # local imports:
 from app import db, login_manager
 
@@ -40,6 +43,7 @@ class Post(db.Model):
     title = db.Column(db.String(64), unique=True, nullable=False)
     tags = db.Column(db.String(128))
     body = db.Column(db.Text(), nullable=False)
+    body_html = db.Column(db.Text())
     timestamp = db.Column(db.Date(), default=datetime.utcnow)
     publish = db.Column(db.Boolean, default=False)
 

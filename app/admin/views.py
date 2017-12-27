@@ -33,7 +33,6 @@ def new_post():
 
     if form.validate_on_submit():
         post = Post(title=form.title.data,
-                    subtitle=form.subtitle.data,
                     tags=form.tags.data,
                     body=form.body.data)
 
@@ -59,7 +58,6 @@ def edit_post(id):
     form = PostForm(obj=post)
     if form.validate_on_submit():
         post.title = form.title.data
-        post.subtitle = form.subtitle.data
         post.tags = form.tags.data
         post.body = form.body.data
 
