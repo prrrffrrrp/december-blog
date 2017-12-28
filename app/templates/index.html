@@ -4,30 +4,45 @@
 
 {% block page_content %}
 
-<ul class="posts">
-  {% for post in posts %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9">
+      <ul class="posts">
+        {% for post in posts %}
 
-    <a href="{{ url_for('home.post', id=post.id) }}">
-      <li class="post">
-        <div class="post-title page-header">
-          {{ post.title }}
-        <span class="post-date">{{ post.timestamp }}</span>
-      </div>
-      <div class="post-beginning">
-        {% if post.body_html %}
-        
-          <p>{{ post.body_html[:300] | safe }}...</p>
+          <a href="{{ url_for('home.post', id=post.id) }}">
+            <li class="post">
+              <div class="post-title page-header">
+                {{ post.title }}
+              <span class="post-date">{{ post.timestamp }}</span>
+            </div>
+            <div class="post-beginning">
+              {% if post.body_html %}
+              
+                <p>{{ post.body_html[:300] | safe }}...</p>
 
-        {% else %}
+              {% else %}
 
-        <p>{{ post.body[:300] }}...</p>
+              <p>{{ post.body[:300] }}...</p>
 
-        {% endif %}
+              {% endif %}
 
-      </div>
-    </li>
-  </a>
-  {% endfor %}
-</ul>
+            </div>
+          </li>
+        </a>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col-sm-3">
+      <ul class="tags">
+        {% for tag in tags %}
+          <li class="tag">
+            {{ tag }}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
