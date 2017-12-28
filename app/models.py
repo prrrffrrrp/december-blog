@@ -54,7 +54,7 @@ class Post(db.Model):
                         'h1', 'h2', 'h3', 'p', 'img']
         target.body_html = bleach.linkify(bleach.clean(
             markdown(value, output_format='html'),
-            tags=allowed_tags, strip=True))
+            tags=allowed_tags, attributes={'*': ['src']}, strip=True))
 
     def __repr__(self):
         return '<Post %r>' % self.title
