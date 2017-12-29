@@ -33,3 +33,11 @@ def post(id):
             abort(403)
     except AttributeError:
         abort(403)
+
+
+@home.route('/posts/tag-search/<string:tag>')
+def tag_search(tag):
+    posts = Post.query.filter_by(
+        tags=tag, publish=True).order_by(Post.timestamp.desc()).all()
+
+    return render_template('home_tag_search.html', posts=posts)

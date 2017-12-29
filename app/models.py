@@ -47,6 +47,7 @@ class Post(db.Model):
     timestamp = db.Column(db.Date(), default=datetime.utcnow)
     publish = db.Column(db.Boolean, default=False)
 
+
     @staticmethod
     def save_markdown_to_server(target, value, oldvalue, initiator):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',

@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}tag-search{% endblock %}
 
 {% block page_content %}
-<div class="container">
-  <div class="row">
-    <div class="col-sm-9">
+
+  <div class="container">
       <ul class="posts">
 
         {% for post in posts %}
@@ -15,8 +14,8 @@
               <div class="post-title page-header">
                 {{ post.title }}
               <span class="post-date">{{ post.timestamp }}</span>
-            </div>
-            <div class="post-beginning">
+              </div>
+              <div class="post-beginning">
 
               {% if post.body_html %}
               
@@ -24,37 +23,17 @@
 
               {% else %}
 
-              <p>{{ post.body[:300] }}...</p>
+                <p>{{ post.body[:300] }}...</p>
 
               {% endif %}
 
-            </div>
-          </li>
-        </a>
-
-        {% endfor %}
-
-      </ul>
-    </div>
-    <div class="col-sm-3">
-      <div class=tags-title>Tags:</div>
-      <ul class="tags">
-       
-        {% for tag, count in tags.items() %}
-
-          <a href="{{ url_for('home.tag_search', tag=tag) }}">
-            <li class="tag">
-
-              {{ tag }}({{ count }})
-
+              </div>
             </li>
           </a>
 
         {% endfor %}
-        
+
       </ul>
-    </div>
   </div>
-</div>
 
 {% endblock %}
