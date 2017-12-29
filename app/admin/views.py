@@ -39,7 +39,7 @@ def new_post():
         db.session.add(post)
         db.session.commit()
 
-        flash('<{}> added to posts'.format(post.title))
+        flash('{} added to posts'.format(post.title))
 
         return redirect(url_for('admin.dashboard'))
 
@@ -64,7 +64,7 @@ def edit_post(id):
         db.session.add(post)
         db.session.commit()
 
-        flash('You have edited the post')
+        flash('You have edited post: {}'.format(post.title))
 
         return redirect(url_for('admin.dashboard'))
 
@@ -81,11 +81,11 @@ def publish_post(id):
     if not post.publish:
         post.publish = True
 
-        flash("You have published the post")
+        flash("You have published post: {}".format(post.title))
     else:
         post.publish = False
 
-        flash("The post isn't public no more")
+        flash("The post: {}, isn't public no more".format(post.title))
 
     db.session.add(post)
     db.session.commit()
@@ -102,7 +102,7 @@ def delete_post(id):
     post = Post.query.get_or_404(id)
     db.session.delete(post)
     db.session.commit()
-    flash('You have deleted the post')
+    flash('You have deleted post: {}'.format(post.title))
 
     return redirect(url_for('admin.dashboard'))
 
