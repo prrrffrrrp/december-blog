@@ -5,6 +5,12 @@ from . import home
 from ..models import Post
 
 
+def clean_tags(data):
+    tags = data.split(',')
+    tags = [tag.strip() for tag in tags]
+    return tags
+
+
 @home.route('/')
 def index():
     posts = Post.query.order_by(
@@ -13,9 +19,8 @@ def index():
     # This asks the database for tags and returns a list of tuples:
     # tags = Post.query.with_entities(Post.tags).all()
 
-    tags = [post.tags.split(',') for post in posts]
+    tags = [clean_tags(post.tags) for post in posts]
     tags = sum(tags, [])
-    tags = [tag.strip() for tag in tags]
     tagset = set(tags)
     tags = {tag: tags.count(tag) for tag in tagset}
 
@@ -25,10 +30,12 @@ def index():
 @home.route('/posts/<int:id>')
 def post(id):
     post = Post.query.get_or_404(id)
+    data = post.tags
+    tags = clean_tags(data)
 
     try:
         if post.publish or current_user.is_admin:
-            return render_template('post.html', post=post)
+            return render_template('post.html', post=post, tags=tags)
         else:
             abort(403)
     except AttributeError:
@@ -37,7 +44,6 @@ def post(id):
 
 @home.route('/posts/tag-search/<string:tag>')
 def tag_search(tag):
-    posts = Post.query.filter_by(
-        tags=tag, publish=True).order_by(Post.timestamp.desc()).all()
+    posts = Post.query.filter(Post.tags.contains(tag)).all()
 
     return render_template('home_tag_search.html', posts=posts)

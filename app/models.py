@@ -47,6 +47,11 @@ class Post(db.Model):
     timestamp = db.Column(db.Date(), default=datetime.utcnow)
     publish = db.Column(db.Boolean, default=False)
 
+    def __init__(self, title, tags, body, publish):
+        self.title = title
+        self.tags = tags
+        self.body = body
+        self.publish = publish
 
     @staticmethod
     def save_markdown_to_server(target, value, oldvalue, initiator):
