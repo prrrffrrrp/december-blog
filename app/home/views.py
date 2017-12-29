@@ -7,7 +7,7 @@ from ..models import Post
 
 def clean_tags(data):
     tags = data.split(',')
-    tags = [tag.strip().capitalize() for tag in tags]
+    tags = [tag.strip() for tag in tags]
     return tags
 
 
@@ -48,4 +48,4 @@ def tag_search(tag):
         Post.tags.contains(tag)).filter_by(
             publish=True).order_by(Post.timestamp.desc()).all()
 
-    return render_template('home_tag_search.html', posts=posts)
+    return render_template('home-tag-search.html', posts=posts)

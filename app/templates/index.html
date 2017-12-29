@@ -42,7 +42,7 @@
        
         {% for tag in tags| dictsort %}
 
-          <a href="{{ url_for('home.tag_search', tag=tag) }}">
+          <a href="{{ url_for('home.tag_search', tag=tag[0]) }}">
             <li class="tag">
 
               {{ tag[0] }}({{ tag[1] }})

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Dashboard Tag Search{% endblock %}
 
 {% block page_content %}
 <div class="content-section">
@@ -42,11 +42,7 @@
 
                       </div>
                       <div class="col-sm-2">
-                        <div>
-
-                          {{ post.tags }}
-                        
-                        </div>
+                        <div>{{ post.tags }}</div>
                       </div>
                       <div class="col-sm-4">
                         <a href="{{ url_for('admin.edit_post', id=post.id) }}"
