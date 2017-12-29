@@ -44,6 +44,8 @@ def post(id):
 
 @home.route('/posts/tag-search/<string:tag>')
 def tag_search(tag):
-    posts = Post.query.filter(Post.tags.contains(tag)).all()
+    posts = Post.query.filter(
+        Post.tags.contains(tag)).filter_by(
+            publish=True).order_by(Post.timestamp.desc()).all()
 
     return render_template('home_tag_search.html', posts=posts)
