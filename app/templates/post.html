@@ -13,7 +13,8 @@
 
     {% for tag in tags %}
 
-      <a href="{{ url_for('home.tag_search', tag=tag) }}">
+      <a href="{{ url_for('home.tag_search', tag=tag) }}" class="btn btn-xs
+        btn-default">
         <span>{{ tag }}</span>
       </a>
 

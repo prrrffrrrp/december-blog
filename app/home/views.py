@@ -7,7 +7,7 @@ from ..models import Post
 
 def clean_tags(data):
     tags = data.split(',')
-    tags = [tag.strip() for tag in tags]
+    tags = [tag.strip().capitalize() for tag in tags]
     return tags
 
 

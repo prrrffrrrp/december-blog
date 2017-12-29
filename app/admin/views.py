@@ -22,7 +22,7 @@ def dashboard():
     return render_template('dashboard.html', posts=posts)
 
 
-@admin.route('admin/tag-search/<string:tag>')
+@admin.route('/admin/tag-search/<string:tag>')
 @login_required
 def tag_search(tag):
     check_admin()
