@@ -22,6 +22,17 @@ def dashboard():
     return render_template('dashboard.html', posts=posts)
 
 
+@admin.route('admin/tag-search/<string:tag>')
+@login_required
+def tag_search(tag):
+    check_admin()
+
+    posts = Post.query.filter(
+        Post.tags.contains(tag)).order_by(Post.timestamp.desc()).all()
+
+    return render_template('admin-tag-search.html', posts=posts)
+
+
 @admin.route('/admin/posts/new-post', methods=['GET', 'POST'])
 @login_required
 def new_post():
