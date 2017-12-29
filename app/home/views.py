@@ -9,7 +9,17 @@ from ..models import Post
 def index():
     posts = Post.query.order_by(
         Post.timestamp.desc()).filter_by(publish=True).all()
-    return render_template('index.html', posts=posts)
+
+    # This asks the database for tags and returns a list of tuples:
+    # tags = Post.query.with_entities(Post.tags).all()
+
+    tags = [post.tags.split(',') for post in posts]
+    tags = sum(tags, [])
+    tags = [tag.strip() for tag in tags]
+    tagset = set(tags)
+    tags = {tag: tags.count(tag) for tag in tagset}
+
+    return render_template('index.html', posts=posts, tags=tags)
 
 
 @home.route('/posts/<int:id>')
