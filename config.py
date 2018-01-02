@@ -23,7 +23,7 @@ class StagingConfig(Config):
 
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
-    SQLALCHEMY_ECHO = True
+#     SQLALCHEMY_ECHO = True
     DEBUG = True
 
 

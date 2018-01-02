@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 
 from . import admin
 from .. import db
-from ..models import Post
+from ..models import Post, Tag
 from .forms import PostForm
 
 
@@ -44,10 +44,12 @@ def new_post():
 
     if form.validate_on_submit():
         post = Post(title=form.title.data,
-                    tags=form.tags.data,
                     body=form.body.data)
 
+        tags = Tag(tags=form.tags.data, post=post)
+
         db.session.add(post)
+        db.session.add(tags)
         db.session.commit()
 
         flash('<{}> added to posts'.format(post.title))

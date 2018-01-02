@@ -45,7 +45,7 @@ class Post(db.Model):
     body_html = db.Column(db.Text())
     timestamp = db.Column(db.Date(), default=datetime.utcnow)
     publish = db.Column(db.Boolean, default=False)
-    tags = db.relationship('Tag', backref='post', lazy=True)
+    tags = db.relationship('Tag', backref='post')
 
 
 #     def __init__(self, title, tags, body, publish):
@@ -74,3 +74,19 @@ class Tag(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     tags = db.Column(db.String(200), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
+
+    def __init__(self, tags):
+        self._tags = tags
+
+    @property
+    def tags(self):
+        return self._tags
+
+    @tags.setter
+    def tags(self, tags):
+        tags = tags.split(',')
+        tags = [tag.strip() for tag in tags]
+        self._tags = tags
+
+
+
