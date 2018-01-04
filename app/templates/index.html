@@ -40,12 +40,12 @@
       <div class=tags-title>Tags:</div>
       <ul class="tags">
        
-        {% for tag in tags %}
+        {% for tag in tags | dictsort %}
 
-          <a href="{{ url_for('home.tag_search', tag=tag.tag_name) }}">
+          <a href="{{ url_for('home.tag_search', tag=tag[0]) }}">
             <li class="tag">
 
-              {{ tag.tag_name }}
+              {{ tag[0] }}({{ tag[1] }})
 
             </li>
           </a>

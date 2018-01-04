@@ -20,6 +20,9 @@ def index():
     # tags = Post.query.with_entities(Post.tags).all()
 
     tags = Tag.query.all()
+    tags = [tag.tag_name for tag in tags]
+    tags_set = set(tags)
+    tags = {tag: tags.count(tag) for tag in tags_set}
 
     return render_template('index.html', posts=posts, tags=tags)
 
@@ -40,8 +43,9 @@ def post(id):
 
 @home.route('/posts/tag-search/<string:tag>')
 def tag_search(tag):
-    posts = Post.query.filter(
-        Post.tags.contains(tag)).filter_by(
-            publish=True).order_by(Post.timestamp.desc()).all()
+    tag_to_posts = Tag.query.filter_by(tag_name=tag).all()
+    posts = []
+    for tag in tag_to_posts:
+        posts.append(tag.post)
 
     return render_template('home-tag-search.html', posts=posts)
