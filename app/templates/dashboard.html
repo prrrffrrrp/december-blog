@@ -44,7 +44,11 @@
                       <div class="col-sm-2">
                         <div>
 
-                          {{ post.tags }}
+                          {% for tag in post.tags %}
+
+                          <p>{{ tag.tag_name }}</p>
+
+                          {% endfor %}
                         
                         </div>
                       </div>

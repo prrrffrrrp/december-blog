@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 
 from . import admin
 from .. import db
-from ..models import Post
+from ..models import Post, Tag
 from .forms import PostForm
 
 
@@ -44,10 +44,11 @@ def new_post():
 
     if form.validate_on_submit():
         post = Post(title=form.title.data,
-                    tags=form.tags.data,
                     body=form.body.data)
+        tags = Tag(tag_name=form.tags.data, post=post)
 
         db.session.add(post)
+        db.session.add(tags)
         db.session.commit()
 
         flash('<{}> added to posts'.format(post.title))
@@ -66,13 +67,16 @@ def edit_post(id):
     add_post = False
 
     post = Post.query.get_or_404(id)
+    tags = Tag.query.filter_by(post_id=id).first()
+
     form = PostForm(obj=post)
     if form.validate_on_submit():
         post.title = form.title.data
-        post.tags = form.tags.data
+        tags.tag_name = form.tags.data
         post.body = form.body.data
 
         db.session.add(post)
+        db.session.add(tags)
         db.session.commit()
 
         flash('You have edited the post')

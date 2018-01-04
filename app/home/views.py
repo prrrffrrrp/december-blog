@@ -19,7 +19,8 @@ def index():
     # This asks the database for tags and returns a list of tuples:
     # tags = Post.query.with_entities(Post.tags).all()
 
-    tags = Tag.query.all()
+    tags = [post.tags for post in posts]
+    tags = sum(tags, [])
     tags = [tag.tag_name for tag in tags]
     tags_set = set(tags)
     tags = {tag: tags.count(tag) for tag in tags_set}
