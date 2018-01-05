@@ -67,16 +67,21 @@ def edit_post(id):
     add_post = False
 
     post = Post.query.get_or_404(id)
-    tags = Tag.query.filter_by(post_id=id).first()
+    tags_from_post = Tag.query.filter_by(post_id=id).all()
+    tags_from_post = ", ".join([t.tag_name for t in tags_from_post])
 
-    form = PostForm(obj=post)
+    form = PostForm(data={'title': post.title,
+                          'tags': tags_from_post,
+                          'body': post.body})
+
     if form.validate_on_submit():
         post.title = form.title.data
-        tags.tag_name = form.tags.data
+        tags = Tag(tag_name=form.tags.data, post=post)
         post.body = form.body.data
 
         db.session.add(post)
         db.session.add(tags)
+
         db.session.commit()
 
         flash('You have edited the post')
