@@ -21,7 +21,10 @@ def index():
 
     tags = [post.tags for post in posts]
     tags = sum(tags, [])
-    tags = [tag.tag_name for tag in tags]
+    tags = [t.tag_name for t in tags]
+    tags = [t.split(',') for t in tags]
+    tags = sum(tags, [])
+    tags = [t.strip() for t in tags]
     tags_set = set(tags)
     tags = {tag: tags.count(tag) for tag in tags_set}
 
@@ -32,6 +35,10 @@ def index():
 def post(id):
     post = Post.query.get_or_404(id)
     tags = post.tags
+    tags = [t.tag_name for t in tags]
+    tags = [t.split(',') for t in tags]
+    tags = sum(tags, [])
+    tags = [t.strip() for t in tags]
 
     try:
         if post.publish or current_user.is_admin:
@@ -44,9 +51,7 @@ def post(id):
 
 @home.route('/posts/tag-search/<string:tag>')
 def tag_search(tag):
-    tag_to_posts = Tag.query.filter_by(tag_name=tag).all()
-    posts = []
-    for tag in tag_to_posts:
-        posts.append(tag.post)
+    tag_to_posts = Tag.query.filter(Tag.tag_name.contains(tag)).all()
+    posts = [t.post for t in tag_to_posts]
 
     return render_template('home-tag-search.html', posts=posts)

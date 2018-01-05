@@ -67,16 +67,15 @@ def edit_post(id):
     add_post = False
 
     post = Post.query.get_or_404(id)
-    tags_from_post = Tag.query.filter_by(post_id=id).all()
-    tags_from_post = ", ".join([t.tag_name for t in tags_from_post])
+    tags = Tag.query.filter_by(post_id=id).first()
 
     form = PostForm(data={'title': post.title,
-                          'tags': tags_from_post,
+                          'tags': tags.tag_name,
                           'body': post.body})
 
     if form.validate_on_submit():
         post.title = form.title.data
-        tags = Tag(tag_name=form.tags.data, post=post)
+        tags.tag_name = form.tags.data
         post.body = form.body.data
 
         db.session.add(post)
@@ -120,7 +119,10 @@ def delete_post(id):
     check_admin()
 
     post = Post.query.get_or_404(id)
+    tags = Tag.query.filter_by(post_id=id).first()
     db.session.delete(post)
+    if tags:
+        db.session.delete(tags)
     db.session.commit()
     flash('You have deleted the post')
 
