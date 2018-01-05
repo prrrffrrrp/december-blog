@@ -10,6 +10,14 @@ login_manager = LoginManager()
 pagedown = PageDown()
 
 
+def clean_tags(tag_query):
+    tags = [t.tag_name for t in tag_query]
+    tags = [t.split(',') for t in tags]
+    tags = sum(tags, [])
+    tags = [t.strip() for t in tags]
+    return tags
+
+
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config_name)

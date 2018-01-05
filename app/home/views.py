@@ -3,12 +3,7 @@ from flask_login import current_user
 
 from . import home
 from ..models import Post, Tag
-
-
-def clean_tags(data):
-    tags = data.split(',')
-    tags = [tag.strip() for tag in tags]
-    return tags
+from .. import clean_tags
 
 
 @home.route('/')
@@ -21,10 +16,7 @@ def index():
 
     tags = [post.tags for post in posts]
     tags = sum(tags, [])
-    tags = [t.tag_name for t in tags]
-    tags = [t.split(',') for t in tags]
-    tags = sum(tags, [])
-    tags = [t.strip() for t in tags]
+    tags = clean_tags(tags)
     tags_set = set(tags)
     tags = {tag: tags.count(tag) for tag in tags_set}
 
@@ -35,10 +27,7 @@ def index():
 def post(id):
     post = Post.query.get_or_404(id)
     tags = post.tags
-    tags = [t.tag_name for t in tags]
-    tags = [t.split(',') for t in tags]
-    tags = sum(tags, [])
-    tags = [t.strip() for t in tags]
+    tags = clean_tags(tags)
 
     try:
         if post.publish or current_user.is_admin:

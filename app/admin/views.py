@@ -2,7 +2,7 @@ from flask import abort, flash, redirect, render_template, url_for
 from flask_login import current_user, login_required
 
 from . import admin
-from .. import db
+from .. import db, clean_tags
 from ..models import Post, Tag
 from .forms import PostForm
 
@@ -18,8 +18,12 @@ def dashboard():
     check_admin()
 
     posts = Post.query.order_by(Post.timestamp.desc()).all()
+    tags = Tag.query.all()
+    tags = clean_tags(tags)
+    tags = [tag for tag in set(tags)]
+    tags.sort()
 
-    return render_template('dashboard.html', posts=posts)
+    return render_template('dashboard.html', posts=posts, tags=tags)
 
 
 @admin.route('/admin/tag-search/<string:tag>')
@@ -27,10 +31,9 @@ def dashboard():
 def tag_search(tag):
     check_admin()
 
-    posts = Post.query.filter(
-        Post.tags.contains(tag)).order_by(Post.timestamp.desc()).all()
+    tags = Tag.query.filter_by(tag_name=tag).all()
 
-    return render_template('admin-tag-search.html', posts=posts)
+    return render_template('admin-tag-search.html', tags=tags)
 
 
 @admin.route('/admin/posts/new-post', methods=['GET', 'POST'])

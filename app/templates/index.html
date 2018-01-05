@@ -45,7 +45,8 @@
           <a href="{{ url_for('home.tag_search', tag=tag[0]) }}">
             <li class="tag">
 
-              {{ tag[0] }}({{ tag[1] }})
+              {{ tag[0] }}
+              <span class="badge">{{ tag[1] }}</span>
 
             </li>
           </a>

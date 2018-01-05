@@ -7,11 +7,31 @@
         <br>
         
           <h1 style="text-align:center;">Dashboard</h1>
-          <div style="text-align: center">
-          <a href="{{ url_for('admin.new_post') }}" class="btn btn-default">
-            <i class="fa fa-plus"></i>
-            New Post
-          </a>
+          <div style="text-align: right">
+            <a href="{{ url_for('admin.new_post') }}" class="btn btn-default">
+              <i class="fa fa-plus"></i>
+              New Post
+            </a>
+            <div class="dropdown">
+              <button class="btn btn-default dropdown-toggle" type="button"
+                data-toggle="dropdown">
+                <i class="fa fa-tags"></i>
+                Tag-Search
+                <span class="caret"></span>
+              </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+
+                  {% for tag in tags %}
+
+                  <li><a href="{{ url_for('admin.tag_search', tag=tag) }}">
+                      {{ tag }}
+                      </a>
+                  </li>
+
+                  {% endfor %}
+
+                </ul>
+            </div>   
           </div>
 
           <div class="container">
