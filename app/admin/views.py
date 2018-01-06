@@ -31,9 +31,12 @@ def dashboard():
 def tag_search(tag):
     check_admin()
 
-    tags = Tag.query.filter_by(tag_name=tag).all()
+    tags = Tag.query.filter(Tag.tag_name.contains(tag)).all()
+    posts = [tag.post for tag in tags]
+    tags = clean_tags(tags)
+    tags = [tag for tag in set(tags)]
 
-    return render_template('admin-tag-search.html', tags=tags)
+    return render_template('admin-tag-search.html', posts=posts, tag=tag, tags=tags)
 
 
 @admin.route('/admin/posts/new-post', methods=['GET', 'POST'])

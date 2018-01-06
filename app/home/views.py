@@ -43,4 +43,4 @@ def tag_search(tag):
     tag_to_posts = Tag.query.filter(Tag.tag_name.contains(tag)).all()
     posts = [t.post for t in tag_to_posts]
 
-    return render_template('home-tag-search.html', posts=posts)
+    return render_template('home-tag-search.html', posts=posts, tag=tag)

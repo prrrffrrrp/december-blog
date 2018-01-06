@@ -6,12 +6,34 @@
 <div class="content-section">
         <br>
         
-          <h1 style="text-align:center;">Dashboard</h1>
-          <div style="text-align: center">
-          <a href="{{ url_for('admin.new_post') }}" class="btn btn-default">
-            <i class="fa fa-plus"></i>
-            New Post
-          </a>
+        <h3 style="text-align:center;">Search tag: {{ tag }}</h3>
+          <div style="text-align: right">
+            <a href="{{ url_for('admin.new_post') }}" class="btn btn-default">
+              <i class="fa fa-plus"></i>
+              New Post
+            </a>
+            <div class="dropdown">
+              <button class="btn btn-default dropdown-toggle" type="button"
+                data-toggle="dropdown">
+                <i class="fa fa-tags"></i>
+                Tag-Search
+                <span class="caret"></span>
+              </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li><a href="{{ url_for('admin.dashboard') }}">all tags</a></li>
+                  <li class="divider"></li>
+
+                  {% for t in tags %}
+
+                  <li><a href="{{ url_for('admin.tag_search', tag=t) }}">
+                      {{ t }}
+                      </a>
+                  </li>
+
+                  {% endfor %}
+
+                </ul>
+            </div>   
           </div>
 
           <div class="container">
@@ -22,7 +44,7 @@
 
 
 
-                  {% for tag in tags %}
+                  {% for post in posts %}
 
               <div class="row">
                       
@@ -42,7 +64,15 @@
 
                       </div>
                       <div class="col-sm-2">
-                        <div>{{ post.tags }}</div>
+                        <div>
+
+                          {% for tag in post.tags %}
+
+                          <p>{{ tag.tag_name }}</p>
+
+                          {% endfor %}
+                        
+                        </div>
                       </div>
                       <div class="col-sm-4">
                         <a href="{{ url_for('admin.edit_post', id=post.id) }}"
