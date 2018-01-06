@@ -9,7 +9,17 @@
 </div>
 
 <div class='post-tags'>
-  <p>tags: {{ post.tags }}</p>
+  <span>Tags:</span>
+
+    {% for tag in tags %}
+
+      <a href="{{ url_for('home.tag_search', tag=tag) }}" class="btn btn-xs
+        btn-default">
+        <span>{{ tag }}</span>
+      </a>
+
+    {% endfor %}
+
 </div>
 
 <div class='post-body'>

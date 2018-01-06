@@ -2,8 +2,8 @@ from flask import abort, flash, redirect, render_template, url_for
 from flask_login import current_user, login_required
 
 from . import admin
-from .. import db
-from ..models import Post
+from .. import db, clean_tags
+from ..models import Post, Tag
 from .forms import PostForm
 
 
@@ -18,8 +18,25 @@ def dashboard():
     check_admin()
 
     posts = Post.query.order_by(Post.timestamp.desc()).all()
+    tags = Tag.query.all()
+    tags = clean_tags(tags)
+    tags = [tag for tag in set(tags)]
+    tags.sort()
 
-    return render_template('dashboard.html', posts=posts)
+    return render_template('dashboard.html', posts=posts, tags=tags)
+
+
+@admin.route('/admin/tag-search/<string:tag>')
+@login_required
+def tag_search(tag):
+    check_admin()
+
+    tags = Tag.query.filter(Tag.tag_name.contains(tag)).all()
+    posts = [tag.post for tag in tags]
+    tags = clean_tags(tags)
+    tags = [tag for tag in set(tags)]
+
+    return render_template('admin-tag-search.html', posts=posts, tag=tag, tags=tags)
 
 
 @admin.route('/admin/posts/new-post', methods=['GET', 'POST'])
@@ -33,10 +50,11 @@ def new_post():
 
     if form.validate_on_submit():
         post = Post(title=form.title.data,
-                    tags=form.tags.data,
                     body=form.body.data)
+        tags = Tag(tag_name=form.tags.data, post=post)
 
         db.session.add(post)
+        db.session.add(tags)
         db.session.commit()
 
         flash('{} added to posts'.format(post.title))
@@ -55,13 +73,20 @@ def edit_post(id):
     add_post = False
 
     post = Post.query.get_or_404(id)
-    form = PostForm(obj=post)
+    tags = Tag.query.filter_by(post_id=id).first()
+
+    form = PostForm(data={'title': post.title,
+                          'tags': tags.tag_name,
+                          'body': post.body})
+
     if form.validate_on_submit():
         post.title = form.title.data
-        post.tags = form.tags.data
+        tags.tag_name = form.tags.data
         post.body = form.body.data
 
         db.session.add(post)
+        db.session.add(tags)
+
         db.session.commit()
 
         flash('You have edited post: {}'.format(post.title))
@@ -100,7 +125,10 @@ def delete_post(id):
     check_admin()
 
     post = Post.query.get_or_404(id)
+    tags = Tag.query.filter_by(post_id=id).first()
     db.session.delete(post)
+    if tags:
+        db.session.delete(tags)
     db.session.commit()
     flash('You have deleted post: {}'.format(post.title))
 

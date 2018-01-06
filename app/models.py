@@ -41,11 +41,18 @@ class Post(db.Model):
 
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(64), unique=True, nullable=False)
-    tags = db.Column(db.String(128))
     body = db.Column(db.Text(), nullable=False)
     body_html = db.Column(db.Text())
     timestamp = db.Column(db.Date(), default=datetime.utcnow)
     publish = db.Column(db.Boolean, default=False)
+    tags = db.relationship('Tag', backref='post', lazy=True)
+
+
+#     def __init__(self, title, tags, body, publish):
+#         self.title = title
+#         self.tags = tags
+#         self.body = body
+#         self.publish = publish
 
     @staticmethod
     def save_markdown_to_server(target, value, oldvalue, initiator):
@@ -61,3 +68,12 @@ class Post(db.Model):
 
 
 db.event.listen(Post.body, 'set', Post.save_markdown_to_server)
+
+
+class Tag(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    tag_name = db.Column(db.String(200), index=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
+
+    def __repr__(self):
+        return "<Tag {}>".format(self.tag_name)

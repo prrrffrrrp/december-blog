@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Dashboard Tag Search{% endblock %}
 
 {% block page_content %}
 <div class="content-section">
         <br>
         
-          <h1 style="text-align:center;">Dashboard</h1>
+        <h3 style="text-align:center;">Search tag: {{ tag }}</h3>
           <div style="text-align: right">
             <a href="{{ url_for('admin.new_post') }}" class="btn btn-default">
               <i class="fa fa-plus"></i>
@@ -20,11 +20,13 @@
                 <span class="caret"></span>
               </button>
                 <ul class="dropdown-menu dropdown-menu-right">
+                  <li><a href="{{ url_for('admin.dashboard') }}">all tags</a></li>
+                  <li class="divider"></li>
 
-                  {% for tag in tags %}
+                  {% for t in tags %}
 
-                  <li><a href="{{ url_for('admin.tag_search', tag=tag) }}">
-                      {{ tag }}
+                  <li><a href="{{ url_for('admin.tag_search', tag=t) }}">
+                      {{ t }}
                       </a>
                   </li>
 
@@ -91,35 +93,9 @@
 
                         {% endif %}
 
-                        <a href="#"
-                          class="btn btn-info btn-xs" data-toggle="modal"
-                          data-target="#app-modal">Delete
+                        <a href="{{ url_for('admin.delete_post', id=post.id) }}"
+                          class="btn btn-info btn-xs" role="button">Delete
                         </a>
-                        <div id="app-modal" class="modal fade" role="dialog"
-                          aria-lebelledby="delete-post" aria-hidden="true">
-                          <div class="modal-dialog">
-
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <button type="button" class="close"
-                                  data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title">Delete Post</h4>
-                              </div>
-                              <div class="modal-body">
-                                <p>Are you sure you want't to permanently delete that post
-                                  from the database?</p>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-default"
-                                  data-dismiss="modal">No</button>
-                                <a href="{{ url_for('admin.delete_post',
-                                  id=post.id) }}" class="btn btn-default">Yes
-                                </a>
-                              </div>
-                            </div>
-
-                          </div>
-                        </div>
                       </div>
               </div>
               <hr>
