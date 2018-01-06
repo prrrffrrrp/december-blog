@@ -23,27 +23,36 @@
         <a class="navbar-brand" href="{{url_for('home.index') }}">december blog</a>
       </div>
       
-      <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          
-          {% if current_user.is_authenticated %}
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
             
-            {% if current_user.is_admin %}
-            
-            <li><a href="{{ url_for('admin.dashboard') }}">dashboard</a></li> 
+            {% if current_user.is_authenticated %}
+              
+              {% if current_user.is_admin %}
+              
+              <li><a href="{{ url_for('admin.dashboard') }}">dashboard</a></li> 
+
+              {% endif %}
+
+              <li><div class="dropdown">
+              <button class="btn hi-admin dropdown-toggle"  data-toggle="dropdown">
+                <a><i class="fa fa-user"></i> Hi, {{ current_user.username }}!</a>
+                  <span class="caret"></span>
+                
+               </button>
+                <ul class="dropdown-menu">
+                  <li><a href="{{url_for('auth.logout') }}">logout</a></li> 
+                </ul>
+              </li>
+                
+            {% else %}
+
+              <li><a href="{{url_for('auth.login') }}">login</a></li>
 
             {% endif %}
 
-            <li><a href="{{url_for('auth.logout') }}">logout</a></li> 
-            <li><a><i class="fa fa-user"></i> Hi, {{ current_user.username }}!</a></li>
-
-          {% else %}
-
-            <li><a href="{{url_for('auth.login') }}">login</a></li>
-
-          {% endif %}
-
-        </ul>
+              </div>
+          </ul>
       </div>
     </div>
   </nav>

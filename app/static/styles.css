@@ -1,20 +1,24 @@
 a {
   text-decoration: none;
-  color: #777;
+  color: #333;
 }
 
 a:link, a:visited, a:active {
   text-decoration: none;
-  color: #777;
+  color: #333;
 
 }
 
 a:hover {
   text-decoration: none;
-  color: #333;
+  color: #777;
 }
 
 textarea.flask-pagedown-input {
   height: 30em;
   width: 100%;
+}
+
+button.hi-admin {
+  margin-top: 8px;
 }
