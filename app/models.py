@@ -72,7 +72,7 @@ db.event.listen(Post.body, 'set', Post.save_markdown_to_server)
 
 class Tag(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    tag_name = db.Column(db.String(200), index=True)
+    tag_name = db.Column(db.String(200), index=True, nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
 
     def __repr__(self):

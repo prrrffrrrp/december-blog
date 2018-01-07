@@ -6,6 +6,6 @@ from flask_pagedown.fields import PageDownField
 
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
-    tags = StringField('Tags')
+    tags = StringField('Tags', validators=[DataRequired()])
     body = PageDownField('Post', validators=[DataRequired()], id='post-body')
     submit = SubmitField('Save')
