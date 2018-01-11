@@ -17,6 +17,8 @@ def check_admin():
 def dashboard():
     check_admin()
 
+    tag_search = False
+
     posts = Post.query.order_by(Post.timestamp.desc()).all()
     tags = Tag.query.all()
     tags = clean_tags(tags)
@@ -31,8 +33,11 @@ def dashboard():
 def tag_search(tag):
     check_admin()
 
-    tags = Tag.query.filter(Tag.tag_name.contains(tag)).all()
-    posts = [tag.post for tag in tags]
+    tag_search = True
+
+    searched_tags = Tag.query.filter(Tag.tag_name.contains(tag)).all()
+    posts = [tag.post for tag in searched_tags]
+    tags = Tag.query.all()
     tags = clean_tags(tags)
     tags = [tag for tag in set(tags)]
 

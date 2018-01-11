@@ -20,6 +20,10 @@
                 <span class="caret"></span>
               </button>
                 <ul class="dropdown-menu dropdown-menu-right">
+                  <li><a href="{{ url_for('admin.dashboard') }}">
+                      all
+                  </a></li>
+                  <li class="divider"></li>
 
                   {% for tag in tags %}
 
