@@ -5,7 +5,7 @@ from flask_testing import TestCase
 from flask import abort, url_for
 
 from app import create_app, db
-from app.models import Post, User
+from app.models import Post, User, Tag
 
 
 class TestBase(TestCase):
@@ -33,8 +33,29 @@ class TestBase(TestCase):
         # Create a simple user
         user = User(username='test_user', password='tester')
 
-        db.session.add(admin)
-        db.session.add(user)
+        # Create an unpublished post
+        unpublished_post = Post(title='test_unpublished_post',
+                                body='test-test-test')
+        tags1 = Tag(tag_name='test, unpublished',
+                    post=unpublished_post)
+
+        # Create a published post
+        published_post = Post(title='test_publised_post',
+                              body='test-test-test-test',
+                              publish=True)
+        tags2 = Tag(tag_name='published, test',
+                    post=published_post)
+
+        insert = [admin,
+                  user,
+                  unpublished_post,
+                  tags1,
+                  published_post,
+                  tags2]
+
+        for i in insert:
+            db.session.add(i)
+
         db.session.commit()
 
     def tearDown(self):
@@ -57,14 +78,23 @@ class TestModels(TestBase):
     def test_post_model(self):
         # create a post
         post = Post(title='example1',
-                    subtitle='blabla',
-                    tags='x',
                     body='blablabla')
 
         db.session.add(post)
         db.session.commit()
 
-        self.assertEqual(Post.query.count(), 1)
+        self.assertEqual(Post.query.count(), 3)
+
+    def test_tags_model(self):
+        post = Post(title='example2',
+                    body='blabla')
+        tags = Tag(tag_name='something, this, that',
+                   post=post)
+
+        db.session.add(tags)
+        db.session.commit()
+
+        self.assertEqual(Tag.query.count(), 3)
 
 
 class TestViews(TestBase):
@@ -74,6 +104,32 @@ class TestViews(TestBase):
         Test that index page is accessible without login.
         '''
         response = self.client.get(url_for('home.index'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_published_post_view(self):
+        '''
+        Test that a published post page is accessible without login.
+        '''
+        post = Post.query.filter_by(publish=True).first()
+        response = self.client.get(url_for('home.post', id=post.id))
+        self.assertEqual(response.status_code, 200)
+
+    def test_unpublished_post_view(self):
+        '''
+        Test that a post page is innaccessible without login
+        if post is unpublished.
+        '''
+        post = Post.query.filter_by(publish=False).first()
+        response = self.client.get(url_for('home.post', id=post.id))
+        self.assertEqual(response.status_code, 403)
+
+    def test_search_tag_view(self):
+        '''
+        Test that the search-tag page is accessible.
+        '''
+        tag = Tag.query.first()
+        tag = tag.tag_name.split(',')
+        response = self.client.get(url_for('home.tag_search', tag=tag[0]))
         self.assertEqual(response.status_code, 200)
 
     def test_login_view(self):

@@ -1,5 +1,5 @@
 import os
-from app import create_app, db
+from app import create_app, db, clean_tags
 from app.models import Post, Tag
 from flask_migrate import Migrate
 
@@ -10,4 +10,4 @@ migrate = Migrate(app, db)
 
 @app.shell_context_processor
 def make_shell_context():
-    return dict(app=app, db=db, Post=Post, Tag=Tag)
+    return dict(app=app, clean_tags=clean_tags, db=db, Post=Post, Tag=Tag)
